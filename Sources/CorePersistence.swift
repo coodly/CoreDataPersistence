@@ -106,7 +106,7 @@ public class CorePersistence {
     private func save(context: NSManagedObjectContext, completion: (() -> ())? = nil) {
         context.perform {
             if context.hasChanges {
-                Logging.log("Save \(context.name)")
+                Logging.log("Save \(String(describing: context.name))")
                 try! context.save()
             }
             
@@ -279,7 +279,7 @@ private class LegacyDataStack: CoreStack {
             DispatchQueue.global(qos: .background).async {
                 let url = self.databaseFilePath
                 
-                Logging.log("Using DB file at \(url)")
+                Logging.log("Using DB file at \(String(describing: url))")
                 
                 let options = [NSMigratePersistentStoresAutomaticallyOption as NSObject: true as AnyObject, NSInferMappingModelAutomaticallyOption as NSObject: true as AnyObject]
                 let config = StackConfig(storeType: self.type, storeURL: url, options: options)
