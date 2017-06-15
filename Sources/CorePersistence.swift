@@ -41,8 +41,8 @@ public class CorePersistence {
         }
     }
     
-    public init(modelName: String, storeType: String = NSSQLiteStoreType, identifier: String = Bundle.main.bundleIdentifier!, in directory: FileManager.SearchPathDirectory = .documentDirectory, wipeOnConflict: Bool = false) {
-        stack = LegacyDataStack(modelName: modelName, type: storeType, identifier: identifier, in: directory, wipeOnConflict: wipeOnConflict)
+    public init(modelName: String, storeType: String = NSSQLiteStoreType, identifier: String = Bundle.main.bundleIdentifier!, bundle: Bundle = Bundle.main, in directory: FileManager.SearchPathDirectory = .documentDirectory, wipeOnConflict: Bool = false) {
+        stack = LegacyDataStack(modelName: modelName, type: storeType, identifier: identifier, bundle: bundle, in: directory, wipeOnConflict: wipeOnConflict)
 
         /*if #available(iOS 10, tvOS 10, *) {
             stack = CoreDataStack(modelName: modelName, type: storeType, identifier: identifier, in: directory, wipeOnConflict: wipeOnConflict)
@@ -143,6 +143,7 @@ private class CoreStack {
     fileprivate let modelName: String
     fileprivate let type: String
     fileprivate let identifier: String
+    fileprivate let bundle: Bundle
     private let directory: FileManager.SearchPathDirectory
     fileprivate let mergePolicy: NSMergePolicyType
     fileprivate let wipeOnConflict: Bool
@@ -154,11 +155,12 @@ private class CoreStack {
         fatalError()
     }
     
-    init(modelName: String, type: String = NSSQLiteStoreType, identifier: String, in directory: FileManager.SearchPathDirectory = .documentDirectory, mergePolicy: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, wipeOnConflict: Bool) {
+    init(modelName: String, type: String = NSSQLiteStoreType, identifier: String, bundle: Bundle, in directory: FileManager.SearchPathDirectory = .documentDirectory, mergePolicy: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, wipeOnConflict: Bool) {
         
         self.modelName = modelName
         self.type = type
         self.identifier = identifier
+        self.bundle = bundle
         self.directory = directory
         self.mergePolicy = mergePolicy
         self.wipeOnConflict = wipeOnConflict
@@ -344,7 +346,7 @@ private class LegacyDataStack: CoreStack {
     }()
     
     private lazy var objectModel: NSManagedObjectModel = {
-        let modelURL = Bundle.main.url(forResource: self.modelName, withExtension: "momd")!
+        let modelURL = self.bundle.url(forResource: self.modelName, withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
