@@ -19,7 +19,7 @@ import CoreData
 
 public typealias ContextClosure = (NSManagedObjectContext) -> ()
 
-public class CorePersistence {
+open class CorePersistence {
     fileprivate var stack: CoreStack!
     
     public var sqliteFilePath: URL? {
