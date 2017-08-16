@@ -347,7 +347,7 @@ private class LegacyDataStack: CoreStack {
     
     private lazy var objectModel: NSManagedObjectModel = {
         let modelURL = self.bundle.url(forResource: self.modelName, withExtension: "momd")!
-        return NSManagedObjectModel(contentsOf: modelURL)!
+        return makeOptional(NSManagedObjectModel(contentsOf: modelURL))!
     }()
     
     override func newBackgroundContext() -> NSManagedObjectContext {
@@ -357,3 +357,9 @@ private class LegacyDataStack: CoreStack {
         return managedContext
     }
 }
+
+//TODO jaanus: remove this. Issue in Xcode9 b5
+private func makeOptional<T>(_ value: T?) -> T? {
+    return value
+}
+
