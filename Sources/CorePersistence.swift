@@ -105,18 +105,20 @@ open class CorePersistence {
     
     private func save(context: NSManagedObjectContext, completion: (() -> ())? = nil) {
         context.perform {
-            if context.hasChanges {
-                Logging.log("Save \(String(describing: context.name))")
-                try! context.save()
+            guard context.hasChanges else {
+                Logging.log("No changes")
+                completion?()
+                return
             }
+            
+            Logging.log("Save \(String(describing: context.name))")
+            try! context.save()
             
             if let parent = context.parent {
                 self.save(context: parent)
             }
             
-            if let completion = completion {
-                completion()
-            }
+            completion?()
         }
     }
 }
