@@ -205,7 +205,7 @@ private class CoreStack {
     }
 }
 
-@available(iOS 10, tvOS 10.0, *)
+@available(iOS 10, tvOS 10.0, macOS 10.12, *)
 private class CoreDataStack: CoreStack {
     private lazy var container: NSPersistentContainer = {
         let container: NSPersistentContainer
