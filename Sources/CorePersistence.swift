@@ -121,6 +121,11 @@ open class CorePersistence {
             completion?()
         }
     }
+    
+    public func write(block: @escaping ContextClosure) {
+        perform(wait: true, block: block)
+        save()
+    }
 }
 
 // MARK: -
