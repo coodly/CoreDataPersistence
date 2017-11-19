@@ -112,6 +112,11 @@ open class CorePersistence {
             }
             
             Logging.log("Save \(String(describing: context.name))")
+            guard context.parent != nil || (context.persistentStoreCoordinator?.persistentStores.count ?? 0) > 0 else {
+                assert(self.stack.type == NSInMemoryStoreType)
+                return
+            }
+            
             try! context.save()
             
             if let parent = context.parent {
