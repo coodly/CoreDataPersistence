@@ -131,9 +131,12 @@ open class CorePersistence {
         }
     }
     
-    public func write(block: @escaping ContextClosure) {
-        perform(wait: true, block: block)
-        save()
+    public func write(block: ContextClosure) {
+        let context = stack.mainContext
+        context.performAndWait {
+            block(context)
+        }
+        save(context: context)
     }
 }
 
