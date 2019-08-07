@@ -143,6 +143,7 @@ open class CorePersistence {
 // MARK: -
 // MARK: Batch delete
 extension CorePersistence {
+    @available(OSX 10.11, *)
     public func delete<T: NSManagedObject>(entities: T.Type, predicate: NSPredicate = .truePredicate) {
         Logging.log("Batch delete on \(T.entityName())")
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: T.entityName())
