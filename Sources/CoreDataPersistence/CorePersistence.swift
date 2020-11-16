@@ -139,6 +139,7 @@ open class CorePersistence {
         save(context: context)
     }
     
+    @available(iOS 10, *)
     public init(mainContext: NSManagedObjectContext) {
         stack = UIStack(context: mainContext)
     }
@@ -415,6 +416,7 @@ private class LegacyDataStack: CoreStack {
     }
 }
 
+@available(iOS 10, *)
 private class UIStack: CoreDataStack {
     override var mainContext: NSManagedObjectContext {
         context
