@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'CoreDataPersistence'
-  s.version = '0.2.3'
+  s.version = '0.2.4'
   s.license = 'Apache 2'
   s.summary = 'Core data wrapperoO in Swift'
   s.homepage = 'https://github.com/coodly/CoreDataPersistence'
