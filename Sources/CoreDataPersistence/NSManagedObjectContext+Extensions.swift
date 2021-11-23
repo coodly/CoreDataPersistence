@@ -116,12 +116,16 @@ extension NSManagedObjectContext {
     }
     
     @available(iOS 9, tvOS 9, macOS 10.12, *)
-    public func fetchedController<T: NSFetchRequestResult>(predicate: NSPredicate? = nil, sort: [NSSortDescriptor], batchSize: Int = 0, sectionNameKeyPath: String? = nil) -> NSFetchedResultsController<T> {
+    public func fetchedController<T: NSFetchRequestResult>(predicate: NSPredicate? = nil, sort: [NSSortDescriptor], batchSize: Int = 0, sectionNameKeyPath: String? = nil, performFetch: Bool = true) -> NSFetchedResultsController<T> {
         let fetchRequest: NSFetchRequest<T> = NSFetchRequest(entityName: T.entityName())
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sort
         fetchRequest.fetchBatchSize = batchSize
         let fetchedController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)
+        
+        guard performFetch else {
+            return fetchedController
+        }
         
         do {
             try fetchedController.performFetch()
